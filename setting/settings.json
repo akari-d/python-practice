@@ -1,0 +1,9 @@
+{
+
+    "workbench.settings.useSplitJSON": true,
+    "files.autoSave": "afterDelay",
+    "code-runner.runInTerminal": true,
+    "files.trimTrailingWhitespace": true
+
+}
+
