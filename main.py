@@ -47,8 +47,10 @@ def load():
         raise
 
 
-def crean_data(df):
+def cleaning_data(df):
     try:
+        logger = set_log()
+
         new_df = df.copy()
         logger.debug(f"読み込み直後のデータ形状: {new_df.shape}")
         logger.debug(f"欠損値の数: {new_df.isna().sum()}")
@@ -87,30 +89,40 @@ def crean_data(df):
         raise
 
 import unittest
-class Testcode(unittest.TestCase):
-    def test_remove(self):
+class TestCleanData(unittest.TestCase):
+    def test_cleaning(self):
         test_data = pd.DataFrame({
-            '商品ID': [1, 2, 3, 4],
-            '商品名': ['商品A', '商品B', '商品C', '商品D'],
-            '価格': [100, 200, 50, 200],
-            'カテゴリ': ['a', 'b', 'c', 'd'],
-            '在庫数': [-10, 20, 30, 40]
+            "商品ID":[1, 2, 3, 4],
+            "商品名":["商品A", "商品B", "商品C", "商品D "],
+            "価格":[100, 100, 300, 400],
+            "カテゴリー":["a", "B", "c", "D"],
+            "在庫数":[4, 2, 3, 4]
         })
 
-        # テスト実行
-        result = crean_data(test_data)
-        self.assertEqual(len(result), 1)
+        result = cleaning_data(test_data)
+        self.assertTrue(all(result["カテゴリー"] == result["カテゴリー"].str.lower()),
+            "小文字に編集できてない"
+        )
+"""
+def main(new_df):
+    try:
+        logger = set_log()
+
+        new_df.to_csv("out_put.csv")
+        logger.info(f"out_put.csvファイルに、クリーンデータを出力しました")
+
+    except FileNotFoundError:
+        logger.error("出力先のファイルが見つかりません")
+    except Exception:
+        logger.error("出力時に何らかのエラーが発生しました")
+    return None
+    """
 
 
 
 if __name__ == '__main__':
     unittest.main()
-
-
-
-
-
-
-
-
-
+    """
+    new_df0 = cleaning_data(load())
+    main(new_df0)
+    """
